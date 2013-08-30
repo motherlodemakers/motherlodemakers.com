@@ -1,0 +1,337 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<?php\n\n// uncomment the following to define a path alias\n// Yii::setPathOfAlias('local','path/to/local-folder');\n\n// This is the main Web application configuration. Any writable\n// CWebApplication properties can be configured here.\nreturn array(\n\n\n	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',\n	'name'=>'Mother Lode Makers',\n\n	// preloading 'log' component\n	'preload'=>array('log'),\n\n	// autoloading model and component classes\n	'import'=>array(\n		'application.models.*',\n		'application.components.*',\n	),\n\n	'modules'=>array(\n		// uncomment the following to enable the Gii tool\n		/*\n		'gii'=>array(\n			'class'=>'system.gii.GiiModule',\n			'password'=>'Enter Your Password Here',\n			// If removed, Gii defaults to localhost only. Edit carefully to taste.\n			'ipFilters'=>array('127.0.0.1','::1'),\n		),\n		*/\n		'forum',\n		'events',\n		'accounting',\n		'billing',\n		'forumAdmin',\n		'tickets',\n	),\n\n	// application components\n	'components'=>array(\n		'user'=>array(\n			// enable cookie-based authentication\n			'allowAutoLogin'=>true,\n		),\n		// uncomment the following to enable URLs in path-format\n		'urlManager'=>array(\n			'urlFormat'=>'path',\n			'rules'=>array(\n				'<controller:\\w+>/<id:\\d+>'=>'<controller>/view',\n				'<controller:\\w+>/<action:\\w+>/<id:\\d+>'=>'<controller>/<action>',\n				'<controller:\\w+>/<action:\\w+>'=>'<controller>/<action>',\n			),\n		),\n		/*\n		'db'=>array(\n			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',\n		),\n		*/\n		// uncomment the following to use a MySQL database\n		'db'=>array(\n			'connectionString' => 'mysql:host=localhost;dbname=jsdraven_makers',\n			'emulatePrepare' => true,\n			'username' => 'jsdraven_mother',\n			'password' => 'I^iwT5xwahol',\n			'charset' => 'utf8',\n		),\n		'errorHandler'=>array(\n			// use 'site/error' action to display errors\n			'errorAction'=>'site/error',\n		),\n		'log'=>array(\n			'class'=>'CLogRouter',\n			'routes'=>array(\n				array(\n					'class'=>'CFileLogRoute',\n					'levels'=>'error, warning',\n				),\n				// uncomment the following to show log messages on web pages\n				/*\n				array(\n					'class'=>'CWebLogRoute',\n				),\n				*/\n			),\n		),\n	),\n\n	// application-level parameters that can be accessed\n	// using Yii::app()->params['paramName']\n	'params'=>array(\n		// this is used in contact page\n		'adminEmail'=>'webmaster@example.com',\n	),\n);",
+			"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/config/main.php",
+			"file_size": 2321,
+			"file_write_time": 1374036223000000,
+			"settings":
+			{
+				"buffer_size": 2331,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/models/LoginForm.php",
+			"settings":
+			{
+				"buffer_size": 1779,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/models/ContactForm.php",
+			"settings":
+			{
+				"buffer_size": 969,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/userProfile/controllers/DefaultController.php",
+			"settings":
+			{
+				"buffer_size": 653,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Tutorial for installing and configuring the Yii User Management \nModule. \n\nIn this Tutorial we will learn how to use the User\nManagement Module on a fresh created Yii Web Application. Installation\nunder an existing application is identical to these instructions.\n\n1.) Generate your Webapp:\n\n$ php yii-1.1.13/framework/yiic webapp testdrive\nCreate a Web application under '/var/www/testdrive'? [Yes|No] Yes\n\n[...]\n\nYour application has been created successfully under /var/www/testdrive.\n\n2.) The Yii User Management Module needs a Database Connection to work. You \nnow have to setup your MySQL Database and insert the connection\nURI in your Application configuration, like this:\n\n'db'=>array(\n		'connectionString' => 'mysql:host=localhost;dbname=testdrive',\n		'emulatePrepare' => true,\n		'username' => 'root',\n		'password' => '',\n		'charset' => 'utf8',\n		// prior to yum0.8rc7 tablePrefix is not necessary anymore, but it can not hurt\n		'tablePrefix' => '', 	   \n		),\n\n$ mysql -u root localhost    \n> CREATE DATABASE `testdrive` ;\n\n3.) Extract the Yii User Management Module under the modules/ directory\nof your new Web Application. Replace the _0.8 with the latest Version\navailable.\n\n$ cd testdrive/protected\n$ mkdir modules\n$ cd modules\n$ wget http://www.yiiframework.com/extension/yii-user-management/files/User_Management_Module_0.8.tar.bz2\n$ tar xvf User_Management_Module_0.8.tar.bz2\n\n4.) The Yii-user-management module contains submodules that you just extracted\ninto your application's modules/ directory. The installation script will provide\n\n$ [youreditor] protected/config/main.php\n\nAdd these lines:\n\n'modules' => array(\n		'user' => array(\n			'debug' => true,\n			)\n		),\n\nThe debug option is needed for the installation and should be set to false \nafter the installation. \n\n5.) To let your Web Application use the Authentification Methods of\nthe User Management Module, we need to overwrite the default \nAuthentification Method in the Application Configuration:\n\n 'components'=>array(\n 'user'=>array(\n      'class' => 'application.modules.user.components.YumWebUser',\n      'allowAutoLogin'=>true,\n      'loginUrl' => array('//user/user/login'),\n      [...]\n    ),\n\n 'import'=>array(  \n  'application.modules.user.models.*',\n	[...]\n    \nThis tells our Web Application that is can access the Model 'User'\neven when not in the modules/user environment. This is needed for calling\nUser::hasRole($role) in your Code to check if the logged in User belongs to the\nrole. This is explained in the detailed Documentation. It is good to let this \nline occur as the first included Model, so you can extend the User-Model with \nyour own in your Application models/ Directory if you like.\n\n6.) Make sure to set a caching component in your application components\nsection. Yum relies on it. If you do not want to use a cache, add\n\n	'components' => array(\n			'cache' => array('class' => 'system.caching.CDummyCache'),\n\ninside the components section of your config/main.php.\n\nAlso see http://www.yiiframework.com/doc/guide/1.1/en/caching.overview about\nsome general information about caching in yii.\n\n\n7.) Run the User Management Installer in your Web-Browser:\n\nhttp://localhost/testdrive/index.php/user/install\nor\nhttp://localhost/testdrive/index.php?r=user/install\n\ndepending on your URL route setup. \n\n8.) Now the Installer of the User Management Module should appear.\nTo the right you can set up alternate Table Names used by the\nModule. In most cases this is not needed and you can keep this \nSettings. If you do change this, be sure to set up the correct table\nNames in your Application Configuration, so the User Module can access\nthem.\n\nClick 'Install Module'. After clicking it, the install script will\ncreate the database tables needed by the module(s). Then it will show\nyou the neccesary modifications to be made. Add the Modules you need to your \nApplication Configuration as provided by the install script in config/main.php.\nYou can also remove the Yum modules you don't want to use.\n\n9.) Congratulations, you have installed the User Management Module! Lets\ntidy up a little bit:\n\n10.) Login as admin/admin and navigate to index.php?r=user/user/admin.\nThis is your user management administration panel. Click on \"Administrate your Users\"\nNow you are taken to the default Front-End Login-Screen of the User \nManagement Module. Log in with the Username admin and Password admin.\n\n11.) Click on the 'update Icon' (the pencil) of your administrator User.\nChange the Password to something more safe than 'admin'. Click Save.\n\n12.) If you already didn't do it, remove the 'debug' => 'true' line from youri\nApplication Configuration so your new data doesn't get overwritten accidentally\nby the installation process.\n\n\nConfiguration of your freshly installed User Management Module:\n---------------------------------------------------------------\n\nLanguage:\n---------\nThe Yii-User Management Module uses the language that is set in\nthe Application Configuration. For example, you can add a \n\n'language' => 'de',\n\nin your config/main.php to get German Language strings. At the moment\nEnglish, German, French and Polish are supported. \n\nQuick Login Widget:\n-------------------\nIf you want to display a quick login widget somewhere in your Web Application,\njust call in your view file:\n\n<?php $this->widget('application.modules.user.components.LoginWidget'); ?>\n\nPassword Requirements:\n----------------------\nYou can setup the password Requirements within the 'passwordRequirements' \noption of the Module, for example:\n\n 'user' => array(\n        'passwordRequirements' => array(                                        \n          'minLen' => 4,\n          'maxLen' => 16,\n          'maxRepetition' => 2,\n          'minDigits' => 3,\n          ),\n\nPlease see components/CPasswordValidator.php for possible password \nrequirement options\n\nUser Registration:\n------------------\nSet the Variable 'enableActivationConfirmation' to false in the module configuration to \nlet users register for your application without needing to receive/click an emailed confirmation link.\n\nRole Management:\n----------------\nYou can add up new roles in the Role Manager. To check for access\nto this roles, you can use this code Snippet everywhere in your\nYii Application. Most likely it will be used in the ACL Filter of\nyour Controllers:\n\n\nif(Yii::app()->user->can('action'))\n{\n // user is allowed\n}\nelse\n{\n // user is not allowed to do this\n}\n\n\nPlease see the file docs/logging.txt for information on how to set up\nthe logging functions of the Yii User Management module.\n\nWhere to go from now on?\n------------------------\nThere are some examples on how to extend from the Yii User Management\nModule and how to implement project-specific stuff. See the files in \nthe docs/ directory for all this.\n\nSee docs/hybridauth.txt for instruction on how to use the wonderful\nhybrid auth framework that is bundled with yii-user-management.\n\n\nFAQ:\n----\nQ: I get an exception when running the Installer\n\nA: Please make sure to log out from any session. Clear your cookies to make\nsure you are not logged in in your Web Application anymore.\n\nQ: I get the error Message: CWebUser does not have a method named \"isAdmin\":\n\nA: Please make sure that you have the following in your application configuration:\n\n	'components'=>array(\n		'user'=>array(\n			'class' => 'application.modules.user.components.YumWebUser',\n\n\nQ: I get the error Message: the table \"{{users}}\" for active record class \"YumUser\" cannot be found in the database.\n\nA: Please make sure that you have the following in your application configuration:\n\n		'db'=>array(\n			'tablePrefix' => '',\n			[...]\n\n\nQ: Why doesn´ t the yii-user-management have submodules?\n\nA: Submodules are supported by yii, but having a path like \napplication.modules.user.modules.role.controllers.YumRoleController\nreally looks strange, so we decided it is better to keep all modules inside\nthe root modules/ directory.\n\nQ: I get the following error while installing:\nGeneral error: 2014 Cannot execute queries while other unbuffered queries are active\n\nA: thanks to NetDabbler, there is a workaround:\n\nComment the folowing lines in YumInstallController.php\n// $sql = file_get_contents(Yii::getPathOfAlias('application.modules.user.docs') . '/yum_translation.sql');\n// $db->createCommand($sql)->execute();\n\nInsert the translation data manually in a cmd window as:\nmysql -u yourusername -p testyum < docs/yum_translation.sql\n\n\nQ: I still got errors ! \n\nA: Make sure to enable a caching component, at least CDummyCache, in your config/main.php:\n\n'cache'=>array( 'class'=>'system.caching.CDummyCache',	),  \n\nQ: I still got errors !\n\nA: Try to add this in your config/main.php:\n\n'session' => array(\n		'sessionName' => 'SiteSession',\n		'class' => 'CHttpSession',\n		'autoStart' => true,\n		),\n\n",
+			"file": "/var/www/public_html/yii-user-management/user/docs/install_tutorial.txt",
+			"file_size": 8779,
+			"file_write_time": 1374214775000000,
+			"settings":
+			{
+				"buffer_size": 8779,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/tickets/views/default/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/config/loc.main.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/accounting/views/default/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/billing/views/default/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/config/main.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/events/views/default/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/forum/views/default/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/views/site/pages/about.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/views/layouts/main.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/components/UserIdentity.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/views/site/index.php",
+		"/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/views/site/login.php",
+		"/home/justin/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/justin/Desktop/index.php",
+		"/home/justin/Desktop/main.php",
+		"/home/justin/Desktop/loc.main.php",
+		"/var/www/public_html/motherlodemakers.com/protected/views/site/index.php",
+		"/var/www/public_html/motherlodemakers.com/protected/modules/forum/views/default/index.php",
+		"/var/www/public_html/motherlodemakers.com/protected/config/loc.main.php",
+		"/var/www/public_html/motherlodemakers.com/protected/config/moduels.php",
+		"/var/www/public_html/motherlodemakers.com/protected/config/main.php",
+		"/var/www/public_html/motherlodemakers.com/index.php",
+		"/home/justin/.bashrc"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/config/main.php",
+					"settings":
+					{
+						"buffer_size": 2331,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5,
+								5
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/models/LoginForm.php",
+					"settings":
+					{
+						"buffer_size": 1779,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/models/ContactForm.php",
+					"settings":
+					{
+						"buffer_size": 969,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/justin/webstuff/www/public_html/motherlodemakers.com/protected/modules/userProfile/controllers/DefaultController.php",
+					"settings":
+					{
+						"buffer_size": 653,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								368,
+								368
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/var/www/public_html/yii-user-management/user/docs/install_tutorial.txt",
+					"settings":
+					{
+						"buffer_size": 8779,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4784,
+								4784
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1833.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
